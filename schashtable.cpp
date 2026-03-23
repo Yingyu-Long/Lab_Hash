@@ -137,12 +137,15 @@ template <class K, class V>
 void SCHashTable<K, V>::resizeTable()
 {
     typename list<pair<K, V>>::iterator it;
-    /**
-     * @todo Implement this function.
-     *
-     * Please read the note in the spec about list iterators!
-     * The size of the table should be the closest prime to size * 2.
-     *
-     * @hint Use findPrime()!
-     */
+    size_t newSize = findPrime(size * 2);
+    list<pair<K, V>>* newTable = new list<pair<K, V>>[newSize];
+    for (size_t i = 0; i < size; i++) {
+        for (it = table[i].begin(); it != table[i].end(); it++) {
+            size_t idx = hash(it->first, newSize);
+            newTable[idx].push_front(*it); 
+        }
+    }
+    delete[] table;
+    table = newTable;
+    size = newSize;     
 }

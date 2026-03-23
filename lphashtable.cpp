@@ -78,14 +78,6 @@ LPHashTable<K, V>::LPHashTable(LPHashTable<K, V> const& other)
 template <class K, class V>
 void LPHashTable<K, V>::insert(K const& key, V const& value)
 {
-    /**
-     * @todo Implement this function.
-     *
-     * @note Remember to resize the table when necessary (load factor >=
-     *  0.7). **Do this check *after* increasing elems!!** Also, don't
-     *  forget to mark the cell for probing with should_probe!
-     */
-
     if (shouldResize()) {
         resizeTable();
     } 
