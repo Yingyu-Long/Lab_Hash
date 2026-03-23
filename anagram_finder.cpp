@@ -49,12 +49,17 @@ AnagramFinder<Dict>::AnagramFinder(const vector<string>& istrings)
  */
 template <template <class K, class V> class Dict>
 bool AnagramFinder<Dict>::checkWord(const string& word, const string& test)
-{
-    /**
-     * @todo Implement this function! You should use the provided
-     * templated hashtable class Dict.
-     */
-
+{     if (word.size() != test.size())
+        return false;
+    vector<int> counts(256, 0);
+    for (size_t i = 0; i < word.size(); i++) {
+        counts[word[i]]++;
+        counts[test[i]]--;
+    }
+    for (size_t i = 0; i < counts.size(); i++) {
+        if (counts[i] != 0)
+            return false;
+    }
     (void)word; // prevent warnings... When you implement this function, remove this line.
     (void)test; // prevent warnings... When you implement this function, remove this line.
 
