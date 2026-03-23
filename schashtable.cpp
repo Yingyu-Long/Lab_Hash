@@ -57,12 +57,19 @@ SCHashTable<K, V>::SCHashTable(SCHashTable<K, V> const& other)
 template <class K, class V>
 void SCHashTable<K, V>::insert(K const& key, V const& value)
 {
+    size_t idx = hash(key, size);
+    typename list<pair<K, V>>::iterator it;
+    for (it = table[idx].begin(); it != table[idx].end(); ++it) {
+        if (it->first == key) {
+            it->second = value;
+            return;
+        }
+    }
     ++elems;
     if (shouldResize())
         resizeTable();
-    pair<K, V> p(key, value);
-    size_t idx = hash(key, size);
-    table[idx].push_front(p);
+    idx = hash(key, size);
+    table[idx].push_front(pair<K, V>(key, value));
 }
 
 template <class K, class V>
@@ -77,7 +84,6 @@ void SCHashTable<K, V>::remove(K const& key)
             return;
         }
     }
-    (void)key; // prevent warnings... When you implement this function, remove this line.
 }
 
 template <class K, class V>

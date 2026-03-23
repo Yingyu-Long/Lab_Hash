@@ -18,15 +18,13 @@ using std::vector;
 
 template <template <class K, class V> class Dict>
 WordFreq<Dict>::WordFreq(const string& filename) : dict(256) {
-    ifstream input(filename);
-    string line;
-    while (getline(input, line)) {
-        istringstream iss(line);
-        string word;
-        while (iss >> word) {
-            dict[word] = dict.find(word) + 1;
+    TextFile infile(filename);
+        while (infile.good()) {
+            string word = infile.getNextWord();
+            if (!word.empty()) {
+                dict[word]++;
+            }
         }
-    }
 }
 
 template <template <class K, class V> class Dict>
@@ -37,9 +35,5 @@ vector<pair<string, int>> WordFreq<Dict>::getWords(int threshold) {
                 ret.push_back(kv);
             }
         }
-
-
-    (void)threshold;  // prevent warnings... When you implement this function, remove this line.
-
     return ret;
 }
